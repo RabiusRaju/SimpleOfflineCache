@@ -30,6 +30,7 @@
         android:layout_margin="8dp"
         android:gravity="center_horizontal"
         android:text="Error Message"
+        android:textColor="@color/black"
         android:visibility="visible" />
 
 </RelativeLayout>

@@ -3,9 +3,11 @@ package com.example.simpleofflinecache.feataures.restaurant
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.activity.viewModels
+import androidx.core.view.isVisible
 import androidx.recyclerview.widget.LinearLayoutManager
 
 import com.example.simpleofflinecache.databinding.ActivityRestaurantBinding
+import com.example.simpleofflinecache.util.Resource
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -23,8 +25,11 @@ class RestaurantActivity : AppCompatActivity() {
                 layoutManager = LinearLayoutManager(this@RestaurantActivity)
             }
 
-            viewModel.restaurant.observe(this@RestaurantActivity){ restaurant ->
-                restaurantAdapter.submitList(restaurant)
+            viewModel.restaurants.observe(this@RestaurantActivity){ result ->
+                restaurantAdapter.submitList(result.data)
+                progressBar.isVisible = result is Resource.Loading && result.data.isNullOrEmpty()
+                textViewError.isVisible = result is Resource.Error && result.data.isNullOrEmpty()
+                textViewError.text = result.error?.localizedMessage
 
             }
         }
